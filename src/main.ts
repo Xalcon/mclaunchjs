@@ -15,10 +15,10 @@ const downloader = new AxiosDownloader((() => {
 
 (async () => 
 {
-    var minecraft = McVersion.getManifest("", downloader);
+    var minecraft = McVersion.getManifest("1.12.2", downloader);
 
     var assetRepo = await (await McAssetRepository.at("temp/assets", downloader)).download("1.12.2");
-    var libRepo = await (await McLibraryRepository.at("temp/libraries", downloader)).download("1.12.2");
+    //var libRepo = await (await McLibraryRepository.at("temp/libraries", downloader)).download("1.12.2");
 })();
 
 

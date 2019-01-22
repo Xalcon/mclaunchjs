@@ -1,5 +1,6 @@
 import { IDownloader } from "./downloader";
 import { MinecraftVersionList, MinecraftVersion } from "./mojang";
+import isUrl = require("is-url");
 
 export class McVersion
 {
@@ -23,9 +24,17 @@ export class McVersion
         return McVersion.getManifest(versionDef.url, downloader);
     }
 
-    public static async getManifest(versionFileUrl: string, downloader: IDownloader): Promise<MinecraftVersion.Manifest>
+    /**
+     * Downloads and parses the version manifest for the given version
+     * @param version Either an Url to the version.json or the id of a valid vanilla version
+     * @param downloader IDownloader implementation
+     */
+    public static async getManifest(version: string, downloader: IDownloader): Promise<MinecraftVersion.Manifest>
     {
-        const manifest = await downloader.getJson<MinecraftVersion.Manifest>(versionFileUrl);
+        const manifest = isUrl(version)
+            ? await downloader.getJson<MinecraftVersion.Manifest>(version)
+            : await this.lookupManifest(version, downloader);
+
         if(manifest.inheritsFrom)
         {
             const parentManifest = await this.lookupManifest(manifest.inheritsFrom, downloader);
@@ -37,12 +46,12 @@ export class McVersion
             if(manifest.releaseTime) parentManifest.releaseTime = manifest.releaseTime;
             if(manifest.time) parentManifest.time = manifest.time;
             if(manifest.type) parentManifest.type = manifest.type;
+            if(manifest.jar) parentManifest.jar = manifest.jar;
             if(manifest.libraries)
             {
-                if(parentManifest.libraries)
+                if(parentManifest.libraries !== undefined)
                 {
                     manifest.libraries.forEach(lib => {
-                        // no typescript, i just checked it. libraries is not null.
                         if(parentManifest.libraries!.find(l => l.name === lib.name)) return;
                             parentManifest.libraries!.push(lib);
                     })
@@ -53,6 +62,7 @@ export class McVersion
                 }
             }
 
+            parentManifest.inheritsFrom = undefined;
             return parentManifest;
         }
         return manifest;

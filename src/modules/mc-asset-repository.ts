@@ -22,6 +22,8 @@ export class McAssetRepository
 
     private async getAssetIndexManifest(versionManifest:MinecraftVersion.Manifest):Promise<MinecraftAssetIndex.Manifest>
     {
+        if(!versionManifest.assetIndex) throw "Version Manifest is missing the assetIndex section!";
+
         const localIndexPath = Path.join(this.repositoryPath, "indexes", versionManifest.assetIndex.id + ".json")
         if(Fs.existsSync(localIndexPath))
         {
@@ -37,12 +39,19 @@ export class McAssetRepository
         return assetIndex;
     }
 
+    private syncTest()
+    {
+        return "Hello World";
+    }
+
+    private async asyncTest()
+    {
+        return "Hello World";
+    }
+
     public async download(version:string):Promise<McAssetRepository>
     {
-        const versionManifest = await getVersion(version, this.downloader).catch(reason => {
-            console.log(reason);
-            throw reason;
-        });
+        const versionManifest = await getVersion(version, this.downloader);
         const assetIndex = await this.getAssetIndexManifest(versionManifest);
 
         let i = 0;
@@ -67,6 +76,8 @@ export class McAssetRepository
             console.log(`Downloading ${file} ... (${i} / ${files.length})`);
             await this.downloader.downloadFileTo(remotePath, localPath);
         }
+
+        if(versionManifest.logging === undefined) throw "VersionManifest is missing the logging section";
 
         const logFile = versionManifest.logging.client.file;
         const localLogFileName = Path.join(this.repositoryPath, "log_configs", logFile.id);
