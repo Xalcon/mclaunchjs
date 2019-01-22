@@ -1,0 +1,21 @@
+{
+  "name": "test",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "start": "node dist/main.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/hasha": "^3.0.0",
+    "@types/unzip": "^0.1.1",
+    "axios": "^0.18.0",
+    "hasha": "^3.0.0",
+    "socks-proxy-agent": "^4.0.1",
+    "typescript": "^3.2.4",
+    "unzip": "^0.1.11"
+  }
+}
