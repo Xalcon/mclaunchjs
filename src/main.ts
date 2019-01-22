@@ -3,8 +3,6 @@ import { McAssetRepository } from "./modules/mc-asset-repository";
 import { McLibraryRepository } from "./modules/mc-library-repository";
 import { McVersion } from "./modules/mc-version";
 
-process.env.socks_proxy = "socks://127.0.0.1:1081";
-
 const downloader = new AxiosDownloader((() => {
     if(process.env.socks_proxy)
     {
