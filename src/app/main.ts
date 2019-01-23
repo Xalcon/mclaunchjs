@@ -15,20 +15,22 @@ function createWindow() {
 
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    height: 600,
+    height: 480,
     width: 800,
+    frame: false,
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
       preload: preloadScript
-    }
+    },
+    backgroundColor: '#171614'
   });
 
   // and load the index.html of the app.
   mainWindow.loadFile(path.join(__dirname, "../../assets/app.ejs"));
 
   // Open the DevTools.
-  mainWindow.webContents.openDevTools();
+  // mainWindow.webContents.openDevTools({ mode: "detach" });
 
   // Emitted when the window is closed.
   mainWindow.on("closed", () => {

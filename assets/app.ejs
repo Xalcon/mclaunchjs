@@ -4,15 +4,14 @@
     <meta charset="UTF-8">
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'">
     <title>Hello World!</title>
+    <link rel="stylesheet" type="text/css" href="styles/app.css" />
   </head>
   <body>
+    <% include titlebar.ejs %>
     <h1><%= greeting %></h1>
-    <div>Platform: <%= process.platform %></div>
-    <div>PreloadScript: <%= preload %></div>
-    <!-- All of the Node.js APIs are available in this renderer process. -->
-    We are using Node.js <%= process.versions.node %>
-    Chromium <%= process.versions.chrome %>,
-    and Electron <%= process.versions.electron %>
-    <button id="button1">Alert</button>
+    <div>
+      <button id="button1">Alert</button>
+      <div class="windrag">DragMe</div>
+    </div>
   </body>
 </html>
