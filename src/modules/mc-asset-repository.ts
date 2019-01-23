@@ -49,9 +49,8 @@ export class McAssetRepository
         return "Hello World";
     }
 
-    public async download(version:string):Promise<McAssetRepository>
+    public async download(versionManifest:MinecraftVersion.Manifest):Promise<McAssetRepository>
     {
-        const versionManifest = await getVersion(version, this.downloader);
         const assetIndex = await this.getAssetIndexManifest(versionManifest);
 
         let i = 0;
@@ -77,7 +76,7 @@ export class McAssetRepository
             await this.downloader.downloadFileTo(remotePath, localPath);
         }
 
-        if(versionManifest.logging === undefined) throw "VersionManifest is missing the logging section";
+        if(versionManifest.logging == undefined) throw "VersionManifest is missing the logging section";
 
         const logFile = versionManifest.logging.client.file;
         const localLogFileName = Path.join(this.repositoryPath, "log_configs", logFile.id);

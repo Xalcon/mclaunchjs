@@ -81,8 +81,8 @@ export module MinecraftVersion {
     }
 
     export interface ArtifactDownloadInfo {
-        artifact: ArtifactFile;
-        classifiers?: ArtifactFile[];
+        artifact?: ArtifactFile;
+        classifiers?: Record<string, ArtifactFile>;
     }
 
     export interface OperatingSystem {
@@ -99,17 +99,17 @@ export module MinecraftVersion {
     }
 
     export interface Natives {
-        linux: string;
-        osx: string;
-        windows: string;
+        linux?: string;
+        osx?: string;
+        windows?: string;
     }
 
     export interface Library {
-        downloads: ArtifactDownloadInfo;
+        downloads?: ArtifactDownloadInfo;
         name: string;
-        rules: Rule[];
-        extract: Extract;
-        natives: Natives;
+        rules?: Rule[];
+        extract?: Extract;
+        natives?: Natives;
     }
 }
 
