@@ -1,4 +1,5 @@
-import { IDownloader } from "./downloader";
+
+import { IDownloader, DefaultDownloader } from "../downloader"
 import { MinecraftVersionList, MinecraftVersion, MinecraftAssetIndex } from "./mojang";
 import Path from "path";
 import Fs from "fs";
@@ -16,7 +17,7 @@ async function getVersion(version:string, downloader:IDownloader)
 
 export class McAssetRepository
 {
-    private constructor(private repositoryPath:string, private downloader:IDownloader)
+    private constructor(private repositoryPath:string, private downloader:IDownloader = DefaultDownloader)
     {
     }
 
@@ -32,7 +33,7 @@ export class McAssetRepository
             return JSON.parse(json);
         }
 
-        Fs.mkdirSync(Path.dirname(localIndexPath));
+        Fs.mkdirSync(Path.dirname(localIndexPath), { recursive: true });
         console.log("local asset index not found, downloading latest...");
         const assetIndex = await this.downloader.getJson<MinecraftAssetIndex.Manifest>(versionManifest.assetIndex.url);
         await Fs.promises.writeFile(localIndexPath, JSON.stringify(assetIndex), { encoding: "utf8" });
@@ -82,14 +83,14 @@ export class McAssetRepository
         const localLogFileName = Path.join(this.repositoryPath, "log_configs", logFile.id);
         if(!Fs.existsSync(localLogFileName) || (await Hasha.fromFile(localLogFileName, { algorithm: "sha1" })) !== logFile.sha1)
         {
-            Fs.mkdirSync(Path.dirname(localLogFileName));
+            Fs.mkdirSync(Path.dirname(localLogFileName), { recursive: true });
             this.downloader.downloadFileTo(logFile.url, localLogFileName);
         }
 
         return this;
     }
 
-    public static async at(repositoryPath:string, downloader:IDownloader):Promise<McAssetRepository>
+    public static async at(repositoryPath:string, downloader:IDownloader = DefaultDownloader):Promise<McAssetRepository>
     {
         const repo = new McAssetRepository(repositoryPath, downloader);
         return repo;

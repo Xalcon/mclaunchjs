@@ -1,4 +1,4 @@
-import { IDownloader } from "./downloader";
+import { IDownloader } from "../downloader";
 import { MinecraftVersion } from "./mojang";
 import Path from "path";
 import Fs from "fs";

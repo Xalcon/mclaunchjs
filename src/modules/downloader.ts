@@ -7,8 +7,9 @@ export interface IDownloader
 import __axios, { AxiosInstance } from "axios";
 import Path from "path";
 import Fs from "fs";
+import Axios from "axios";
 
-export class AxiosDownloader implements IDownloader
+class AxiosDownloader implements IDownloader
 {
     constructor(private ax:AxiosInstance = __axios) { }
 
@@ -35,4 +36,16 @@ export class AxiosDownloader implements IDownloader
             writer.on('error', reject);
         });
     }
-}
+};
+
+const DefaultDownloader = new AxiosDownloader((() => {
+    if(process.env.socks_proxy)
+    {
+        const SocksProxyAgent = require("socks-proxy-agent")
+        const httpsAgent = new SocksProxyAgent(process.env.socks_proxy)
+        return require("axios").create({httpsAgent})
+    }
+    return require("axios");
+})());
+
+export { DefaultDownloader };

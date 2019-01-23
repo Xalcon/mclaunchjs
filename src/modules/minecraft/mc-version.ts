@@ -1,4 +1,4 @@
-import { IDownloader } from "./downloader";
+import { IDownloader, DefaultDownloader } from "../downloader";
 import { MinecraftVersionList, MinecraftVersion } from "./mojang";
 import isUrl from "is-url";
 import { CompositeMcVersionManifest } from "./composite-mc-version-manifest";
@@ -20,7 +20,7 @@ export class McVersion
 {
     private static versionListManifest?:MinecraftVersionList.Manifest;
 
-    public static async getVersionList(downloader: IDownloader)
+    public static async getVersionList(downloader: IDownloader = DefaultDownloader)
     {
         return this.versionListManifest
            || (this.versionListManifest = await downloader.getJson<MinecraftVersionList.Manifest>("https://launchermeta.mojang.com/mc/game/version_manifest.json"));
@@ -31,7 +31,7 @@ export class McVersion
      * @param version Either an Url to the version.json or the id of a valid vanilla version
      * @param downloader IDownloader implementation
      */
-    public static async getManifest(version: string, downloader: IDownloader): Promise<MinecraftVersion.Manifest>
+    public static async getManifest(version: string, downloader: IDownloader = DefaultDownloader): Promise<MinecraftVersion.Manifest>
     {
         const manifest = isUrl(version)
             ? await downloader.getJson<MinecraftVersion.Manifest>(version)
