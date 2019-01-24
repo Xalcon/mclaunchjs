@@ -1,0 +1,42 @@
+#options {
+    margin: 0 50px;
+}
+
+#options nav {
+    width: 100px;
+    margin-right: 20px;
+}
+
+#options .containerButton:hover {
+    box-shadow: 0 0 10px 0 rgba(255, 255, 255, 0.4);
+    cursor: pointer;
+}
+
+#options .containerButton {
+    border: 1px solid gray;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 10px;
+}
+
+#options .containerButton h3 {
+    margin: 0;
+}
+
+#options .containerButton img {
+    margin-right: 10px;
+    width: 96px;
+    height: 96px;
+}
+
+.removeButton {
+    border: 1px solid tomato;
+    color: tomato;
+    padding: 3px;
+    background: transparent;
+}
+
+.removeButton:hover {
+    border: 1px solid red;
+    box-shadow: 0 0 5px 0 tomato;
+    cursor: pointer;
+}

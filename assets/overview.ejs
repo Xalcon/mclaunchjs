@@ -1,0 +1,29 @@
+<div id="overview" class="content-container flex-container-col">
+    <article id="news" class="flex-item-auto scrollable">
+        <% include loremipsum.ejs %>
+    </article>
+    <footer id="footer" class="flex-container-row flex-item">
+        <div id="progressInfo" class="flex-item-auto">
+
+            <div class="label flex-container-row">
+                <span class="flex-item-auto" data-for="progressCurrent" data-type="text">No Text</span>
+                <span class="flex-item" data-for="progressCurrent" data-type="progress"></span>
+            </div>
+            <progress id="progressCurrent" max="100" value="50"></progress>
+
+            <div class="label flex-container-row">
+                <span class="flex-item-auto" data-for="progressTotal" data-type="text">No Text</span>
+                <span class="flex-item" data-for="progressTotal" data-type="progress"></span>
+            </div>
+            <progress id="progressTotal" max="100" value="50"></progress>
+
+        </div>
+        <div id="actions" class="flex-container-row flex-item justify-center">
+            <img class="flex-item" id="currentPlayerAvatar" src="https://minotar.net/avatar/da2bd098e4644643a6901a23295af0e8" />
+            <div class="flex-container-col flex-item-auto">
+                <button id="btnPlay" class="glassButton flex-item-auto">Play</button>
+                <button id="btnOptions" class="glassButton flex-item-auto">Options</button>
+            </div>
+        </div>
+    </footer>
+</div>

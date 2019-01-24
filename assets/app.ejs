@@ -30,18 +30,8 @@
             </div>
         </header>
         <section id="content" class="flex-container-col flex-item-auto">
-            <article id="news" class="flex-item-auto scrollable">
-                <% include loremipsum.ejs %>
-            </article>
-            <footer id="footer" class="flex-container-row flex-item">
-                <div class="flex-item-auto">
-                    <progress max="100" value="50"></progress>
-                    <progress max="100" value="50"></progress>
-                </div>
-                <div class="flex-item">
-                    <img id="currentPlayerAvatar" src="https://minotar.net/avatar/da2bd098e4644643a6901a23295af0e8" />
-                </div>
-            </footer>
+            <% include overview.ejs %>
+            <% include options.ejs %>
         </section>
     </body>
 </html>
