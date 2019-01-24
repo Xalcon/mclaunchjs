@@ -10,11 +10,6 @@ declare const document:Document;
 
 onload = () =>
 {
-    console.log("Preloaded");
-    button1.addEventListener("click", () => {
-        alert("You clicked me, and Fs is " + Fs);
-    });
-
     titleBarButton_close.addEventListener('click', e => {
         const window = remote.getCurrentWindow()
         window.close()
@@ -37,4 +32,15 @@ onload = () =>
 
         document.body.focus();
     });
+
+    document.querySelectorAll("progress").forEach(bar => {
+        setInterval(() => {
+            if(Math.random() > 0.5)
+            {
+                bar.value++;
+                if(bar.value >= bar.max)
+                    bar.value = 0;
+            }
+        }, 30);
+    })
 }

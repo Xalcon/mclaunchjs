@@ -1,17 +1,47 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'">
-    <title>Hello World!</title>
-    <link rel="stylesheet" type="text/css" href="styles/app.css" />
-  </head>
-  <body>
-    <% include titlebar.ejs %>
-    <h1><%= greeting %></h1>
-    <div>
-      <button id="button1">Alert</button>
-      <div class="windrag">DragMe</div>
-    </div>
-  </body>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https://minotar.net/">
+        <title>Hello World!</title>
+        <link rel="stylesheet" type="text/css" href="styles/app.css" />
+    </head>
+    <body class="flex-container-col">
+        <header id="titlebar" class="flex-item">
+            <div id="titlebarText" class="window-dragger center-content"><%= appTitle %></div>
+            <div id="titleBar_buttonDock" class="disable-win-drag">
+                <button class="titleBarButton" id="titleBarButton_minimize" tabIndex="-1">
+                    <svg width="12" height="12" viewBox="0 0 12 12" shape-rendering="crispEdges">
+                        <rect fill="#ffffff" width="10" height="1" x="1" y="6"></rect>
+                    </svg>
+                </button>
+                <button class="titleBarButton" id="titleBarButton_restore" tabIndex="-1">
+                    <svg width="12" height="12" viewBox="0 0 12 12" shape-rendering="crispEdges">
+                        <rect width="8" height="8" x="1" y="3" stroke="#ffffff" fill="none"></rect>
+                        <path stroke="#ffffff" fill="none" d="M3 2 v-2 v1 h8 v-1 v9 h-2" stroke-linejoin="arcs"></path>
+                    </svg>
+                </button>
+                <button class="titleBarButton" id="titleBarButton_close" tabIndex="-1">
+                    <svg width="12" height="12" viewBox="0 0 12 12" shape-rendering="crispEdges">
+                        <path stroke="#ffffff" fill="none" d="M2 2 L12 12" stroke-linejoin="arcs"></path>
+                        <path stroke="#ffffff" fill="none" d="M2 12 L12 2" stroke-linejoin="arcs"></path>
+                    </svg>
+                </button>
+            </div>
+        </header>
+        <section id="content" class="flex-container-col flex-item-auto">
+            <article id="news" class="flex-item-auto scrollable">
+                <% include loremipsum.ejs %>
+            </article>
+            <footer id="footer" class="flex-container-row flex-item">
+                <div class="flex-item-auto">
+                    <progress max="100" value="50"></progress>
+                    <progress max="100" value="50"></progress>
+                </div>
+                <div class="flex-item">
+                    <img id="currentPlayerAvatar" src="https://minotar.net/avatar/da2bd098e4644643a6901a23295af0e8" />
+                </div>
+            </footer>
+        </section>
+    </body>
 </html>

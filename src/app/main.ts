@@ -8,6 +8,7 @@ let mainWindow: Electron.BrowserWindow|undefined;
 const preloadScript = path.join(__dirname, "preload.js");
 ejse.data("greeting", "Hello Electron!");
 ejse.data("preload", preloadScript);
+ejse.data("appTitle", "MCLaunchJS")
 
 function createWindow() {
 
