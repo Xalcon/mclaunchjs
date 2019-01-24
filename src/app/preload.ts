@@ -1,4 +1,3 @@
-import Fs from "fs";
 import { remote } from "electron";
 console.log("Preloading");
 
