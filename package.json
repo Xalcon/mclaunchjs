@@ -12,6 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "axios": "^0.18.0",
+    "decompress-zip": "^0.2.2",
     "ejs-electron": "^2.0.3",
     "file-url": "^2.0.2",
     "hasha": "^3.0.0",

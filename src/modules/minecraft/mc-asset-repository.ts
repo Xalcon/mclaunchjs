@@ -39,15 +39,10 @@ export class McAssetRepository
         await Fs.promises.writeFile(localIndexPath, JSON.stringify(assetIndex), { encoding: "utf8" });
         return assetIndex;
     }
-
-    private syncTest()
+    
+    public getAssetDir(version: MinecraftVersion.Manifest): string
     {
-        return "Hello World";
-    }
-
-    private async asyncTest()
-    {
-        return "Hello World";
+        return this.repositoryPath;
     }
 
     public async download(versionManifest:MinecraftVersion.Manifest):Promise<McAssetRepository>
@@ -79,12 +74,15 @@ export class McAssetRepository
 
         if(versionManifest.logging == undefined) throw "VersionManifest is missing the logging section";
 
-        const logFile = versionManifest.logging.client.file;
-        const localLogFileName = Path.join(this.repositoryPath, "log_configs", logFile.id);
-        if(!Fs.existsSync(localLogFileName) || (await Hasha.fromFile(localLogFileName, { algorithm: "sha1" })) !== logFile.sha1)
+        if(versionManifest.logging.client)
         {
-            Fs.mkdirSync(Path.dirname(localLogFileName), { recursive: true });
-            this.downloader.downloadFileTo(logFile.url, localLogFileName);
+            const logFile = versionManifest.logging.client.file;
+            const localLogFileName = Path.join(this.repositoryPath, "log_configs", logFile.id);
+            if(!Fs.existsSync(localLogFileName) || (await Hasha.fromFile(localLogFileName, { algorithm: "sha1" })) !== logFile.sha1)
+            {
+                Fs.mkdirSync(Path.dirname(localLogFileName), { recursive: true });
+                this.downloader.downloadFileTo(logFile.url, localLogFileName);
+            }
         }
 
         return this;

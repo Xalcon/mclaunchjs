@@ -6,6 +6,8 @@ import Hasha from "hasha";
 import {mvnArtifact} from "../utils/maven";
 import isUrl = require("is-url");
 
+var DecompressZip = require('decompress-zip');
+
 async function downloadArtifact(artifact:MinecraftVersion.ArtifactFile, libraryPath:string, downloader:IDownloader)
 {
     const localPath = Path.join(libraryPath, artifact.path);
@@ -38,6 +40,21 @@ export class McLibraryRepository
 
     public static async at(libraryPath: string, downloader: IDownloader = DefaultDownloader): Promise<McLibraryRepository> {
         return new McLibraryRepository(libraryPath, downloader);
+    }
+
+    public getNativeLibPath(version: MinecraftVersion.Manifest) : string
+    {
+        return Path.resolve(Path.join(this.libraryPath, "__native", version.jar || version.id));
+    }
+    
+    public getPathTo(lib: MinecraftVersion.Library): string
+    {
+        const artifact = mvnArtifact(lib.name);
+        const path = Path.join(this.libraryPath, artifact.path);
+        /*if(!Fs.existsSync(path))
+            throw "Lib not found locally: " + lib.name;*/
+
+        return Path.resolve(path);
     }
 
     public async download(version: MinecraftVersion.Manifest): Promise<McLibraryRepository>
@@ -80,6 +97,31 @@ export class McLibraryRepository
                         if(classifiedArtifact)
                         {
                             await downloadArtifact(classifiedArtifact, this.libraryPath, this.downloader);
+
+                            if(lib.extract)
+                            {
+                                const fullPath = Path.join(this.libraryPath, classifiedArtifact.path);
+                                const unzipper = new DecompressZip(fullPath);
+                                await new Promise((resolve, reject) =>
+                                {
+                                    unzipper.on('extract', resolve);
+                                    unzipper.on('error', reject);
+                                    unzipper.on('progress', (fileIndex:number, fileCount:number) =>
+                                    {
+                                        console.log('Extracted file ' + (fileIndex + 1) + ' of ' + fileCount);
+                                    })
+
+                                    unzipper.extract(
+                                    {
+                                        path: this.getNativeLibPath(version),
+                                        filter: (f:any) => 
+                                        {
+                                            const path = f.path.replace(/\\/g, "/");
+                                            return !lib.extract!.exclude.find(ex => path.startsWith(ex))
+                                        }
+                                    })
+                                });
+                            }
                         }
                     }
                 }
