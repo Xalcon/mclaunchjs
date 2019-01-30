@@ -19,7 +19,7 @@ export class CompositeMcVersionManifest implements MinecraftVersion.Manifest
                 const libs = pLibs.slice();
                 for(const lib of sLibs)
                 {
-                    if(!libs.filter(l => l.name == lib.name))
+                    if(!libs.find(l => l.name == lib.name))
                         libs.push(lib);
                 }
                 return libs;

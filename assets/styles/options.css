@@ -7,6 +7,24 @@
     margin-right: 20px;
 }
 
+#options nav button {
+    background: transparent;
+    border: 0;
+    color: gray;
+    margin: 10px;
+}
+
+#options nav button:hover, #options nav button.active {
+    text-shadow: 0 0 2px white;
+    color: white;
+}
+
+#options nav hr {
+    border: 0;
+    border-top: 1px solid white;
+    width: 80%;
+}
+
 #options .containerButton:hover {
     box-shadow: 0 0 10px 0 rgba(255, 255, 255, 0.4);
     cursor: pointer;

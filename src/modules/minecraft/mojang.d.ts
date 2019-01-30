@@ -110,6 +110,11 @@ export module MinecraftVersion {
         rules?: Rule[];
         extract?: Extract;
         natives?: Natives;
+
+        checksums?: string[],
+        url?: string;
+        serverreq?: boolean;
+        clientreq?: boolean;
     }
 }
 
