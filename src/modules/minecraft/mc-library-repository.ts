@@ -113,7 +113,7 @@ export class McLibraryRepository
                         success = true;
                         break;
                     }
-                    catch { } // Pokemon exception
+                    catch { } // Pokemon exception, gotta catch them all.
                 }
 
                 if(!success)
